@@ -10,11 +10,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
-
+    companion object{
+        var taskSelected : Task? = null
+    }
     val repository: TaskRepository
     lateinit var myQueryResponse : Flow<List<Task>>
-
-    var task : Task? = null
 
     init{
         val db = AppDataBase.getDatabase(application).taskDao()
@@ -37,10 +37,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    /*fun deleteTask(task: Task){
+    fun deleteTask(task: Task) {
         viewModelScope.launch {
             repository.deleteTask(task)
         }
     }
-     */
 }

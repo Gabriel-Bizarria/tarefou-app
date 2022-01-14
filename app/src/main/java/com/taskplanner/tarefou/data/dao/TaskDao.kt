@@ -17,9 +17,9 @@ interface TaskDao {
     fun getAllTasks(): Flow<List<Task>>
 
     @Update
-    fun updateTasks(task: Task)
+    suspend fun updateTasks(task: Task)
 
     @Delete
-    fun deleteTask(task: Task)
+    suspend fun deleteTask(task: Task)
 
 }

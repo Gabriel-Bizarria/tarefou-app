@@ -1,6 +1,5 @@
 package com.taskplanner.tarefou.view
 
-import android.app.Activity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -14,13 +13,15 @@ import com.taskplanner.tarefou.extensions.format
 import com.taskplanner.tarefou.extensions.text
 import com.taskplanner.tarefou.data.model.Task
 import com.taskplanner.tarefou.viewmodel.MainViewModel
+import com.taskplanner.tarefou.viewmodel.MainViewModel.Companion.taskSelected
 import kotlinx.coroutines.launch
 import java.util.*
 
 class AddTaskActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityAddtaskBinding
     private lateinit var mainViewModel: MainViewModel
+    private var task: Task? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +33,11 @@ class AddTaskActivity : AppCompatActivity() {
             ViewModelProvider.AndroidViewModelFactory.getInstance(this.application))
             .get(MainViewModel::class.java)
 
+        lifecycleScope.launch {
+            loadInfoEdit()
             insertListeners()
+        }
+
     }
 
     private fun insertListeners() {
@@ -73,23 +78,37 @@ class AddTaskActivity : AppCompatActivity() {
             finish()
         }
 
-
         binding.btCancel.setOnClickListener {
             finish()
         }
     }
 
-
-    private fun addTask(){
-        lifecycleScope.launch {
-            val name = binding.tiTitle.text
-            val description = binding.tiDescription.text
-            val date = binding.tiDate.text
-            val hour = binding.tiHour.text
-            val task = Task(0, name, description, date, hour)
-            mainViewModel.addTask(task)
+    fun loadInfoEdit(){
+        task = taskSelected
+        if(task != null){
+            binding.tiTitle.text = taskSelected!!.title
+            binding.tiDescription.text = taskSelected!!.description
+            binding.tiDate.text = taskSelected!!.date
+            binding.tiHour.text = taskSelected!!.hour
         }
     }
 
 
+    private fun addTask(){
+        val name = binding.tiTitle.text
+        val description = binding.tiDescription.text
+        val date = binding.tiDate.text
+        val hour = binding.tiHour.text
+        val task = Task(0, name, description, date, hour)
+
+        if(task != null){
+            lifecycleScope.launch {
+               mainViewModel.updateTask(task)
+            }
+        }else{
+            lifecycleScope.launch {
+                mainViewModel.addTask(task)
+            }
+        }
+    }
 }

@@ -7,6 +7,7 @@ import com.taskplanner.tarefou.MainActivity
 import com.taskplanner.tarefou.databinding.ItemTaskBinding
 import com.taskplanner.tarefou.data.model.Task
 import com.taskplanner.tarefou.viewmodel.MainViewModel
+import kotlinx.coroutines.coroutineScope
 
 class TaskListAdapter(
     private val taskItemClickListener: TaskItemClickListener,
@@ -28,7 +29,16 @@ class TaskListAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when(holder){
             is TaskViewHolder ->{
-                holder.bind(taskList[position])
+                val task = taskList[position]
+                holder.bind(task)
+
+                holder.binding.ivEdit.setOnClickListener {
+                    taskItemClickListener.onTaskClicked(task)
+                }
+
+                holder.binding.ivDelete.setOnClickListener {
+                        mainViewModel.deleteTask(task)
+                }
             }
         }
     }
@@ -42,7 +52,7 @@ class TaskListAdapter(
         notifyDataSetChanged()
     }
 
-    class TaskViewHolder (private val binding: ItemTaskBinding)
+    class TaskViewHolder (  val binding: ItemTaskBinding)
         : RecyclerView.ViewHolder(binding.root){
 
         fun bind(task: Task){

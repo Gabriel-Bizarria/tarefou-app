@@ -13,6 +13,7 @@ import com.taskplanner.tarefou.data.model.Task
 import com.taskplanner.tarefou.databinding.ActivityMainBinding
 import com.taskplanner.tarefou.view.AddTaskActivity
 import com.taskplanner.tarefou.viewmodel.MainViewModel
+import com.taskplanner.tarefou.viewmodel.MainViewModel.Companion.taskSelected
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.util.*
@@ -43,7 +44,7 @@ class MainActivity : AppCompatActivity(), TaskItemClickListener {
     }
 
     private fun insertListeners() {
-        val adapter = TaskListAdapter(this, mainViewModel)
+        adapter = TaskListAdapter(this, mainViewModel)
         binding.btAdd.setOnClickListener {
             startActivity(Intent(this, AddTaskActivity::class.java))
         }
@@ -55,6 +56,8 @@ class MainActivity : AppCompatActivity(), TaskItemClickListener {
     }
 
     override fun onTaskClicked(task: Task) {
-        mainViewModel.task = task
+        taskSelected = task
+        startActivity(Intent(this, AddTaskActivity::class.java))
     }
+
 }
