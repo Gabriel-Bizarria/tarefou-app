@@ -20,7 +20,7 @@ import java.util.*
 class AddTaskActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddtaskBinding
     private lateinit var mainViewModel: MainViewModel
-    private var task: Task? = null
+    private var taskSelectedToAdd: Task? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -83,9 +83,16 @@ class AddTaskActivity : AppCompatActivity() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        taskSelected = null
+        taskSelectedToAdd = taskSelected
+    }
+
     fun loadInfoEdit(){
-        task = taskSelected
-        if(task != null){
+        taskSelectedToAdd = taskSelected
+        if(taskSelectedToAdd != null){
+            binding.toolbar.title = "Editar tarefa"
             binding.tiTitle.text = taskSelected!!.title
             binding.tiDescription.text = taskSelected!!.description
             binding.tiDate.text = taskSelected!!.date
@@ -101,7 +108,7 @@ class AddTaskActivity : AppCompatActivity() {
         val hour = binding.tiHour.text
         val task = Task(0, name, description, date, hour)
 
-        if(task != null){
+        if(taskSelectedToAdd != null){
             lifecycleScope.launch {
                mainViewModel.updateTask(task)
             }
