@@ -73,8 +73,13 @@ class AddTaskActivity : AppCompatActivity() {
         }
 
         binding.btCreate.setOnClickListener {
-            addTask()
-            Toast.makeText(applicationContext, "Tarefa criada com sucesso!", Toast.LENGTH_SHORT).show()
+            if(taskSelectedToAdd != null){
+                editTask()
+                Toast.makeText(this, "Tarefa editada com sucesso!", Toast.LENGTH_SHORT)
+            }else{
+                addTask()
+                Toast.makeText(this, "Tarefa criada com sucesso!", Toast.LENGTH_SHORT).show()
+            }
             finish()
         }
 
@@ -93,6 +98,7 @@ class AddTaskActivity : AppCompatActivity() {
         taskSelectedToAdd = taskSelected
         if(taskSelectedToAdd != null){
             binding.toolbar.title = "Editar tarefa"
+            binding.btCreate.text = "Salvar a edição"
             binding.tiTitle.text = taskSelected!!.title
             binding.tiDescription.text = taskSelected!!.description
             binding.tiDate.text = taskSelected!!.date
@@ -108,14 +114,21 @@ class AddTaskActivity : AppCompatActivity() {
         val hour = binding.tiHour.text
         val task = Task(0, name, description, date, hour)
 
-        if(taskSelectedToAdd != null){
-            lifecycleScope.launch {
-               mainViewModel.updateTask(task)
-            }
-        }else{
-            lifecycleScope.launch {
-                mainViewModel.addTask(task)
-            }
+        lifecycleScope.launch {
+            mainViewModel.addTask(task)
         }
     }
+
+    private fun editTask(){
+        val name = binding.tiTitle.text
+        val description = binding.tiDescription.text
+        val date = binding.tiDate.text
+        val hour = binding.tiHour.text
+        val task = Task(taskSelected!!.id, name, description, date, hour)
+
+        lifecycleScope.launch {
+            mainViewModel.updateTask(task)
+        }
+    }
+
 }
