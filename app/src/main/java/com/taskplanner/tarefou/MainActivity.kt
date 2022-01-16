@@ -2,8 +2,10 @@ package com.taskplanner.tarefou
 
 
 import android.content.Intent
+import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -38,7 +40,13 @@ class MainActivity : AppCompatActivity(), TaskItemClickListener {
 
         lifecycleScope.launch{
             mainViewModel.myQueryResponse.collect { response ->
-                adapter.setDataSet(response)
+                if(!response.isNullOrEmpty()){
+                    binding.ivNoTasks.visibility = View.GONE
+                    adapter.setDataSet(response)
+                } else {
+                    binding.ivNoTasks.visibility = View.VISIBLE
+                    adapter.setDataSet(response)
+                }
             }
         }
     }
