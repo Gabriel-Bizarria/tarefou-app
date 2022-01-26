@@ -43,13 +43,17 @@ class AddTaskActivity : AppCompatActivity() {
     private fun insertListeners() {
         binding.tiDate.editText?.setOnClickListener {
             val datePicker = MaterialDatePicker.Builder.datePicker().build()
-
             datePicker.addOnPositiveButtonClickListener {
                 val timeZone = TimeZone.getDefault()
                 val offset = timeZone.getOffset(Date().time) * -1
-                binding.tiDate.text = Date(it + offset).format()
+                val dateFormatted = Date(it + offset).format()
+                val currentTime = Calendar.getInstance().time.format()
+                if(dateFormatted < currentTime){
+                    Toast.makeText(applicationContext, "Data inválida!", Toast.LENGTH_SHORT).show()
+                } else {
+                    binding.tiDate.text = dateFormatted
+                }
             }
-
             datePicker.show(supportFragmentManager, "DATE_PICKER_TAG")
         }
 
@@ -59,7 +63,7 @@ class AddTaskActivity : AppCompatActivity() {
                 .build()
 
             timePicker.addOnPositiveButtonClickListener {
-               when(timePicker.hour){
+                when(timePicker.hour){
                    in 0L..9L -> binding.tiHour.text = "0${timePicker.hour}"
                    else -> binding.tiHour.text = "${timePicker.hour}"
                }
@@ -84,6 +88,10 @@ class AddTaskActivity : AppCompatActivity() {
         }
 
         binding.btCancel.setOnClickListener {
+            finish()
+        }
+
+        binding.toolbar.setOnClickListener {
             finish()
         }
     }

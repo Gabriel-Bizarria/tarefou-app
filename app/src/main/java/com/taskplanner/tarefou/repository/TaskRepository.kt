@@ -14,6 +14,10 @@ class TaskRepository(private val taskDao: TaskDao){
         return taskDao.queryById(id)
     }
 
+    fun getTaskByTitle(title: String): Flow<Task?>{
+        return taskDao.queryByTitle(title)
+    }
+
     suspend fun insertTask(task: Task){
         taskDao.save(task)
     }

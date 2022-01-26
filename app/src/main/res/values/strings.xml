@@ -7,4 +7,5 @@
     <string name="label_cancel">Cancelar</string>
     <string name="label_task_creation">Criar tarefa</string>
     <string name="label_add_task">Botão adicionar</string>
+    <string name="label_search_by_name">Buscar tarefa por nome</string>
 </resources>

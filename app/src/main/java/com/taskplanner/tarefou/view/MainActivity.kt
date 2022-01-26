@@ -1,8 +1,7 @@
-package com.taskplanner.tarefou
+package com.taskplanner.tarefou.view
 
 
 import android.content.Intent
-import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -13,7 +12,7 @@ import com.taskplanner.tarefou.adapter.TaskItemClickListener
 import com.taskplanner.tarefou.adapter.TaskListAdapter
 import com.taskplanner.tarefou.data.model.Task
 import com.taskplanner.tarefou.databinding.ActivityMainBinding
-import com.taskplanner.tarefou.view.AddTaskActivity
+import com.taskplanner.tarefou.extensions.text
 import com.taskplanner.tarefou.viewmodel.MainViewModel
 import com.taskplanner.tarefou.viewmodel.MainViewModel.Companion.taskSelected
 import kotlinx.coroutines.flow.collect
@@ -67,5 +66,4 @@ class MainActivity : AppCompatActivity(), TaskItemClickListener {
         taskSelected = task
         startActivity(Intent(this, AddTaskActivity::class.java))
     }
-
 }

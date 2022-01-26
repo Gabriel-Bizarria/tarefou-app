@@ -3,11 +3,9 @@ package com.taskplanner.tarefou.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.taskplanner.tarefou.MainActivity
 import com.taskplanner.tarefou.databinding.ItemTaskBinding
 import com.taskplanner.tarefou.data.model.Task
 import com.taskplanner.tarefou.viewmodel.MainViewModel
-import kotlinx.coroutines.coroutineScope
 
 class TaskListAdapter(
     private val taskItemClickListener: TaskItemClickListener,

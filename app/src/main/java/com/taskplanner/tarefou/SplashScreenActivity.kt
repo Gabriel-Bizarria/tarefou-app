@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.taskplanner.tarefou.databinding.ActivitySplashScreenBinding
+import com.taskplanner.tarefou.view.MainActivity
 import java.util.*
 
 class SplashScreenActivity : AppCompatActivity() {

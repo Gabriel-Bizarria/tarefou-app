@@ -13,7 +13,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     companion object{
         var taskSelected : Task? = null
     }
-    val repository: TaskRepository
+    private val repository: TaskRepository
     lateinit var myQueryResponse : Flow<List<Task>>
 
     init{
@@ -40,6 +40,12 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun deleteTask(task: Task) {
         viewModelScope.launch {
             repository.deleteTask(task)
+        }
+    }
+
+    fun searchTask(word: String){
+        viewModelScope.launch {
+            repository.getTaskByTitle(word)
         }
     }
 }
